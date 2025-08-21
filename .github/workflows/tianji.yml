@@ -2,11 +2,14 @@ name: Build & Release Tianji Add-on
 
 on:
   schedule:
-    - cron: "0 3 * * *"   # jeden Tag um 3 Uhr
-  workflow_dispatch:
-  repository_dispatch:
+    - cron: "0 3 * * *"   # Jeden Tag um 3 Uhr nach Updates suchen
+  workflow_dispatch:       # Manuell starten
   push:
-    branches: [ main ]
+    branches: [ main ]     # Nur wenn du willst, dass es bei Push läuft
+
+permissions:
+  contents: write          # Für git push
+  packages: write          # Für docker push
 
 jobs:
   build:
@@ -14,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Add-on Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get Latest Tianji Release
         id: tianji
@@ -21,15 +26,15 @@ jobs:
           latest=$(curl -s https://api.github.com/repos/msgbyte/tianji/releases/latest | jq -r .tag_name | sed 's/^v//')
           echo "version=$latest" >> $GITHUB_OUTPUT
 
-      - name: Update config.json with new version
+      - name: Update Tianji config.json with new version
         run: |
           jq --arg v "${{ steps.tianji.outputs.version }}" '.version=$v' tianji/config.json > tmp.json
           mv tmp.json tianji/config.json
 
-      - name: Commit changes
+      - name: Commit changes (if any)
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add tianji/config.json
           git commit -m "Update Tianji to version ${{ steps.tianji.outputs.version }}" || echo "No changes to commit"
           git push
