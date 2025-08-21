@@ -1,0 +1,55 @@
+name: Build & Release Tianji Add-on
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # jeden Tag um 3 Uhr
+  workflow_dispatch:
+  repository_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Add-on Repo
+        uses: actions/checkout@v4
+
+      - name: Get Latest Tianji Release
+        id: tianji
+        run: |
+          latest=$(curl -s https://api.github.com/repos/msgbyte/tianji/releases/latest | jq -r .tag_name | sed 's/^v//')
+          echo "version=$latest" >> $GITHUB_OUTPUT
+
+      - name: Update config.json with new version
+        run: |
+          jq --arg v "${{ steps.tianji.outputs.version }}" '.version=$v' tianji/config.json > tmp.json
+          mv tmp.json tianji/config.json
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add tianji/config.json
+          git commit -m "Update Tianji to version ${{ steps.tianji.outputs.version }}" || echo "No changes to commit"
+          git push
+
+      - name: Build Docker Image
+        run: |
+          docker build \
+            --build-arg TIANJI_VERSION=${{ steps.tianji.outputs.version }} \
+            -t ghcr.io/${{ github.repository_owner }}/tianji-addon:latest \
+            -t ghcr.io/${{ github.repository_owner }}/tianji-addon:${{ steps.tianji.outputs.version }} \
+            ./tianji
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/tianji-addon:latest
+          docker push ghcr.io/${{ github.repository_owner }}/tianji-addon:${{ steps.tianji.outputs.version }}
