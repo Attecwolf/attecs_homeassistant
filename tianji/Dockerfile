@@ -6,7 +6,7 @@ ARG TIANJI_VERSION
 ENV TIANJI_VERSION=${TIANJI_VERSION}
 
 # Hole Tianji Release Binary (statt Source zu bauen)
-ADD https://github.com/msgbyte/tianji/releases/download/v${TIANJI_VERSION}/tianji_${TIANJI_VERSION}_linux_amd64.tar.gz /tmp/tianji.tar.gz
+ADD https://github.com/msgbyte/tianji/releases/download/v${TIANJI_VERSION}/tianji-reporter-linux-amd64 /tmp/tianji.tar.gz
 
 WORKDIR /app
 
