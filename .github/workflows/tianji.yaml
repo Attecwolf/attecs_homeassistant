@@ -1,0 +1,31 @@
+name: Update Tianji Addon
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # check daily
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Fetch Tianji latest version
+        id: tianji
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/msgbyte/tianji/releases/latest | jq -r .tag_name)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update config.json version
+        run: |
+          jq --arg v "${{ steps.tianji.outputs.version }}" '.version=$v' tianji/config.json > tmp.json && mv tmp.json tianji/config.json
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add tianji/config.json
+          git commit -m "Update Tianji to ${{ steps.tianji.outputs.version }}" || exit 0
+          git push

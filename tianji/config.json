@@ -2,17 +2,15 @@
   "name": "Tianji",
   "version": "latest",
   "slug": "tianji",
-  "description": "Tianji: A Home Assistant addon for https://github.com/msgbyte/tianji",
+  "description": "Tianji - Web analytics platform",
   "url": "https://github.com/msgbyte/tianji",
-  "startup": "application",
+  "arch": ["amd64", "aarch64"],
+  "startup": "services",
   "boot": "auto",
-  "webui": "http://[HOST]:[PORT:3000]",
-  "ingress": true,
-  "ingress_port": 3000,
-  "panel_icon": "mdi:robot",
-  "arch": ["amd64", "armv7", "armhf"],
-  "map": ["config:rw", "ssl:rw"],
+  "ports": {
+    "3000/tcp": 3000
+  },
+  "map": ["config:rw"],
   "options": {},
-  "schema": {},
-  "image": "ghcr.io/msgbyte/tianji:latest"
+  "schema": {}
 }
