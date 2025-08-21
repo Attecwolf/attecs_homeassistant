@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
-echo "Starting Tianji..."
-cd /app
-exec node dist/src/server/main.js
+echo "Starting Tianji $TIANJI_VERSION..."
+exec /app/tianji server
