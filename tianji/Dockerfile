@@ -8,9 +8,8 @@ WORKDIR /app
 
 # Lade das Binary direkt
 ADD https://github.com/msgbyte/tianji/releases/download/v${TIANJI_VERSION}/tianji-reporter-linux-amd64 /app/tianji
+RUN chmod +x /app/tianji:contentReference[oaicite:52]{index=52}
 
-# Binary ausführbar machen
-RUN chmod +x /app/tianji
 
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
