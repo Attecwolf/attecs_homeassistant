@@ -1,22 +1,15 @@
 {
   "name": "Tianji",
-  "version": "1.24.18",
+  "version": "latest",
   "slug": "tianji",
   "description": "Tianji – Website Analytics, Uptime Monitor, Server Status",
-  "arch": [
-    "amd64",
-    "armv7",
-    "aarch64"
-  ],
+  "arch": ["amd64", "armv7", "aarch64"],
   "startup": "services",
   "boot": "auto",
   "ports": {
     "12345/tcp": 12345
   },
-  "map": [
-    "config:rw",
-    "share:rw"
-  ],
+  "map": ["config:rw", "share:rw"],
   "options": {},
   "schema": {}
 }
