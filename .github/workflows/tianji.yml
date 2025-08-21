@@ -41,10 +41,11 @@ jobs:
 
       - name: Build Docker Image
         run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           docker build \
             --build-arg TIANJI_VERSION=${{ steps.tianji.outputs.version }} \
-            -t ghcr.io/${{ github.repository_owner }}/tianji-addon:latest \
-            -t ghcr.io/${{ github.repository_owner }}/tianji-addon:${{ steps.tianji.outputs.version }} \
+            -t ghcr.io/$OWNER/tianji-addon:latest \
+            -t ghcr.io/$OWNER/tianji-addon:${{ steps.tianji.outputs.version }} \
             ./tianji
 
       - name: Login to GitHub Container Registry
@@ -53,8 +54,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: Push Image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/tianji-addon:latest
-          docker push ghcr.io/${{ github.repository_owner }}/tianji-addon:${{ steps.tianji.outputs.version }}
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          docker push ghcr.io/$OWNER/tianji-addon:latest
+          docker push ghcr.io/$OWNER/tianji-addon:${{ steps.tianji.outputs.version }}
