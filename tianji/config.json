@@ -8,9 +8,18 @@
   "startup": "services",
   "boot": "auto",
   "ports": {
-    "3000/tcp": 3000
+    "3000/tcp": null
   },
   "map": ["config:rw"],
-  "options": {},
-  "schema": {}
+  "options": {
+    "port": 3000,
+    "sidebar": true
+  },
+  "schema": {
+    "port": "int",
+    "sidebar": "bool"
+  },
+  "panel_icon": "mdi:chart-bar",
+  "panel_title": "Tianji",
+  "ingress": false
 }
