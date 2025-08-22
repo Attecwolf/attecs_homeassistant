@@ -19,6 +19,7 @@
     "port": "int",
     "sidebar": "bool"
   },
+  "webui": "http://[HOST]:[PORT:3000]",
   "panel_icon": "mdi:chart-bar",
   "panel_title": "Tianji",
   "ingress": false
