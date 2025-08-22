@@ -15,10 +15,14 @@
     "port": 3000,
     "sidebar": true
   },
-  "schema": {
-    "port": "int",
-    "sidebar": "bool"
-  },
+"schema": {
+  "port": "int",
+  "sidebar": "bool"
+},
+"environment": {
+  "PORT": "{port}"
+}
+
   "webui": "http://[HOST]:[PORT:3000]",
   "panel_icon": "mdi:chart-bar",
   "panel_title": "Tianji",

@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/sh
 set -e
 
-PORT=$(jq -r '.port' /data/options.json)
+PORT="${PORT:-3000}"
 
 echo "[INFO] Starting Tianji on port $PORT..."
-exec /tianji --port $PORT
+exec /tianji --port "$PORT"
