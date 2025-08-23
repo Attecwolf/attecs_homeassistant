@@ -1,14 +1,4 @@
 {
-  "name": "Attec's Homeassistant",
-  "url": "https://github.com/Attecwolf/attecs_homeassistant",
-  "maintainer": "attecwolf@gmail.com"
-,
-  "addons": [
-    {
-      "name": "Tianji",
-      "slug": "tianji",
-      "description": "Tianji: A Home Assistant addon for https://github.com/msgbyte/tianji",
-      "url": "https://github.com/msgbyte/tianji"
-    }
-  ]
+  "name": "Attec's Home Assistant Add-ons",
+  "url": "https://github.com/Attecwolf/attecs_homeassistant"
 }
