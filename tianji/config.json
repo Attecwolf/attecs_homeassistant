@@ -2,24 +2,26 @@
   "name": "Tianji",
   "version": "1.0.0",
   "slug": "tianji",
-  "description": "Self-hosted, open-source monitoring and alerting platform.",
-  "url": "https://github.com/msgbyte/tianji",
+  "description": "Tianji monitoring platform as a Home Assistant add-on.",
   "arch": ["amd64", "arm64"],
+  "url": "https://github.com/msgbyte/tianji",
   "startup": "services",
   "boot": "auto",
-  "image": "msgbyte/tianji:latest",
-  "ports": {
-    "80/tcp": null
-  },
-  "ingress": false,
-  "panel_icon": "mdi:monitor-dashboard",
-  "panel_title": "Tianji",
-  "panel_admin": false,
-  "webui": "http://[HOST]:[PORT:80]",
+  "webui": "http://[HOST]:[PORT:8080]",
+  "ingress": true,
+  "ingress_port": 8080,
+  "map": ["config"],
   "options": {
     "port": 8080
   },
   "schema": {
     "port": "int"
-  }
+  },
+  "ports": {
+    "8080/tcp": 8080
+  },
+  "ports_description": {
+    "8080/tcp": "Web interface"
+  },
+  "image": "msgbyte/tianji:latest"
 }
